@@ -10,7 +10,7 @@ class Computer
 
   def pick
     computer_choice = CHOICES.keys.sample
-    puts "Computer picks #{computer_choice}"
+    puts "Computer picks #{CHOICES[computer_choice]}"
     computer_choice
   end
 
@@ -27,16 +27,16 @@ class Player
 
   def pick
     begin
-      puts "Pick one: (p, r, s):"
-      player_choice = gets.chomp.downcase
+    puts "Pick one: (p, r, s):"
+    player_choice = gets.chomp.downcase
     end until CHOICES.keys.include?(player_choice)
-      puts "Player choices #{player_choice}"
-      player_choice
-    end
+    puts "Player choices #{CHOICES[player_choice]}"
+    player_choice
+  end
 
   def get_name
     puts "Hello, what is your name?"
-    name = gets.chomp.capitalize
+    gets.chomp.capitalize
   end
 
 end
@@ -60,21 +60,22 @@ class Game
     end
   end
 
-  def run 
+  def run
+    puts "Welcome to Paper Rock Scissors!" 
     pp = player.pick
     cp = computer.pick
-    who_wins?(pp,cp)
+    who_wins(pp,cp)
     play_again
   end
 
-  def who_wins?(pp,cp)
-    if pp == cp
+  def who_wins(player_pick,computer_pick)
+    if player_pick == computer_pick
       puts "#{player.player_name} tied the computer."
-    elsif (pp == 'p' && cp == 'r') || (pp == 'r' && cp == 's') || (pp == 's' && cp == 'p')
-      winning_message(pp)
+    elsif (player_pick == 'p' && computer_pick == 'r') || (player_pick == 'r' && computer_pick == 's') || (player_pick == 's' && computer_pick == 'p')
+      winning_message(player_pick)
       puts "#{player.player_name} Wins!"
     else
-      winning_message(cp)
+      winning_message(computer_pick)
       puts "The Computer Wins!"
     end
   end
@@ -84,25 +85,13 @@ class Game
       puts "Do you want to play again (y/n)?"
       choice = gets.chomp.downcase
       if choice == ("y")
-          run
+        run
       elsif choice == ("n")
-          exit(0)
+        exit
       end
     end
   end  
 end
 
-
-class Welcome
-
-  def initialize
-  end
-
-  def start
-    puts "Welcome to Paper Rock Scissors!"
-  end
-end
-
-Welcome.new.start
-game = Game.new.run
+Game.new.run
 
